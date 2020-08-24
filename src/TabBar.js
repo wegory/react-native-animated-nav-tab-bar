@@ -14,10 +14,10 @@ const Wrapper = styled.View`
   width: 100%;
   elevation: 2;
   padding-bottom: ${isIphoneX() ? BOTTOM_PADDING_IPHONE_X : BOTTOM_PADDING};
-  padding-top: ${p => p.topPadding};
-  padding-horizontal: ${p => p.verticalPadding};
-  background-color: ${p => p.tabBarBackground};
-  ${p => p.shadow && SHADOW};
+  padding-top: ${(p) => p.topPadding};
+  padding-horizontal: ${(p) => p.verticalPadding};
+  background-color: ${(p) => p.tabBarBackground};
+  ${(p) => p.shadow && SHADOW};
 `;
 
 const TabButton = styled.TouchableOpacity`
@@ -27,22 +27,22 @@ const TabButton = styled.TouchableOpacity`
   align-items: center;
   border-radius: 100;
   padding-vertical: 10;
-  flex-grow: ${p => (p.focused ? p.labelLength / 10 + 1 : 1)};
+  flex-grow: ${(p) => (p.focused ? p.labelLength / 10 + 1 : 1)};
 `;
 
 const Label = styled(Animated.Text)`
-  color: ${p => p.activeColor};
+  color: ${(p) => p.activeColor};
   font-weight: bold;
-  margin-left: ${p => (p.icon ? 8 : 0)};
+  margin-left: ${(p) => (p.icon ? 8 : 0)};
 `;
 
 const Dot = styled(Animated.View)`
   position: absolute;
-  top: ${p => p.topPadding};
-  width: ${p => p.width};
-  height: ${p => p.height};
+  top: ${(p) => p.topPadding};
+  width: ${(p) => p.width};
+  height: ${(p) => p.height};
   border-radius: 100;
-  background-color: ${p => p.activeTabBackground};
+  background-color: ${(p) => p.activeTabBackground};
   z-index: -1;
 `;
 
@@ -58,7 +58,7 @@ export default TabBar = ({
   activeColors,
   navigation,
   activeTabBackgrounds,
-  state: navigationState
+  state: navigationState,
 }) => {
   const [prevPos, setPrevPos] = React.useState(verticalPadding);
   const [pos, setPos] = React.useState(0);
@@ -66,10 +66,10 @@ export default TabBar = ({
   const [height, setHeight] = React.useState(0);
   const [animatedPos] = React.useState(() => new Animated.Value(1));
 
-  const animation = val =>
+  const animation = (val) =>
     Animated.spring(val, {
       toValue: 1,
-      useNativeDriver: false
+      useNativeDriver: false,
     });
 
   handleBackPress = () => {
@@ -98,7 +98,6 @@ export default TabBar = ({
     animation(animatedPos).start(() => {
       updatePrevPos();
     });
-
   }, [navigationState.index]);
 
   const activeTabBackground = activeTabBackgrounds
@@ -113,7 +112,7 @@ export default TabBar = ({
     : "#000";
 
   const updatePrevPos = () => {
-    setPos(pos => {
+    setPos((pos) => {
       setPrevPos(pos);
       return pos;
     });
@@ -163,7 +162,7 @@ export default TabBar = ({
         return null;
       }
 
-      return icon({ focused, color: tintColor });
+      return icon({ focused: true, color: tintColor });
     };
 
     const onPress = () => {
@@ -174,7 +173,7 @@ export default TabBar = ({
 
         const event = navigation.emit({
           type: "tabPress",
-          target: route.key
+          target: route.key,
         });
 
         if (!event.defaultPrevented) {
@@ -191,12 +190,12 @@ export default TabBar = ({
 
         navigation.emit({
           type: "tabLongPress",
-          target: route.key
+          target: route.key,
         });
       }
     };
 
-    const onLayout = e => {
+    const onLayout = (e) => {
       if (focused) {
         setPos(e.nativeEvent.layout.x);
         setWidth(e.nativeEvent.layout.width);
@@ -234,8 +233,8 @@ export default TabBar = ({
         style={{
           left: animatedPos.interpolate({
             inputRange: [0, 1],
-            outputRange: [prevPos, pos]
-          })
+            outputRange: [prevPos, pos],
+          }),
         }}
         width={width}
         height={height}
@@ -258,7 +257,7 @@ TabBar.propTypes = {
   tabBarBackground: PropTypes.string.isRequired,
   shadow: PropTypes.bool.isRequired,
   verticalPadding: PropTypes.number.isRequired,
-  topPadding: PropTypes.number.isRequired
+  topPadding: PropTypes.number.isRequired,
 };
 
 TabBar.defaultProps = {
@@ -266,5 +265,5 @@ TabBar.defaultProps = {
   tabBarBackground: "#FFFFFF",
   shadow: true,
   verticalPadding: 10,
-  topPadding: 10
+  topPadding: 10,
 };
