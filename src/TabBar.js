@@ -59,6 +59,7 @@ export default TabBar = ({
   navigation,
   activeTabBackgrounds,
   state: navigationState,
+  disabled
 }) => {
   const [prevPos, setPrevPos] = React.useState(verticalPadding);
   const [pos, setPos] = React.useState(0);
@@ -166,7 +167,7 @@ export default TabBar = ({
     };
 
     const onPress = () => {
-      if (!focused) {
+      if (!focused && !disabled) {
         animation(animatedPos).start(() => {
           updatePrevPos();
         });
@@ -258,6 +259,7 @@ TabBar.propTypes = {
   shadow: PropTypes.bool.isRequired,
   verticalPadding: PropTypes.number.isRequired,
   topPadding: PropTypes.number.isRequired,
+  disabled: PropTypes.bool.isRequired
 };
 
 TabBar.defaultProps = {
@@ -266,4 +268,5 @@ TabBar.defaultProps = {
   shadow: true,
   verticalPadding: 10,
   topPadding: 10,
+
 };
