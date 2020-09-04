@@ -1,8 +1,20 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { Animated, BackHandler, View } from "react-native";
+import { Animated, BackHandler, View, Dimensions, Platform, } from "react-native";
 import styled, { css } from "styled-components/native";
 import { isIphoneX } from "./utils/iPhoneX";
+
+const { width, height } = Dimensions.get("window");
+
+//Guideline sizes are based on standard ~5" screen mobile device
+const guidelineBaseWidth = 350;
+const guidelineBaseHeight = 680;
+
+const scale = (size) =>
+  Math.round((width / guidelineBaseWidth) * size * 10) / 10;
+// const verticalScale = size => (height / guidelineBaseHeight) * size;
+const moderateScale = (size, factor = 0.5) =>
+  Math.round((size + (scale(size) - size) * factor) * 10) / 10;
 
 //Wrapper
 const BOTTOM_PADDING = 10;
@@ -34,6 +46,7 @@ const Label = styled(Animated.Text)`
   color: ${(p) => p.activeColor};
   font-weight: bold;
   margin-left: ${(p) => (p.icon ? 8 : 0)};
+  font-size: ${moderateScale(14)};
 `;
 
 const Dot = styled(Animated.View)`
