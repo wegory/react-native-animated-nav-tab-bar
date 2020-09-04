@@ -17,7 +17,7 @@ const moderateScale = (size, factor = 0.5) =>
   Math.round((size + (scale(size) - size) * factor) * 10) / 10;
 
 //Wrapper
-const BOTTOM_PADDING = 10;
+const BOTTOM_PADDING = moderateScale(9);
 const BOTTOM_PADDING_IPHONE_X = 30;
 
 const Wrapper = styled.View`
@@ -38,7 +38,7 @@ const TabButton = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   border-radius: 100;
-  padding-vertical: 10;
+  padding-vertical: ${moderateScale(10)};
   flex-grow: ${(p) => (p.focused ? p.labelLength / 10 + 1 : 1)};
 `;
 
@@ -48,6 +48,7 @@ const Label = styled(Animated.Text)`
   margin-left: ${(p) => (p.icon ? 8 : 0)};
   font-size: ${moderateScale(14)};
 `;
+
 
 const Dot = styled(Animated.View)`
   position: absolute;
