@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import { Animated, BackHandler, View, Dimensions, Platform, } from "react-native";
 import styled, { css } from "styled-components/native";
-import { isIphoneX } from "./utils/iPhoneX";
+import { isIphoneX, doesNotchExists } from "./utils/iPhoneX";
 
 const { width, height } = Dimensions.get("window");
 
@@ -17,15 +17,14 @@ const moderateScale = (size, factor = 0.5) =>
   Math.round((size + (scale(size) - size) * factor) * 10) / 10;
 
 //Wrapper
-const BOTTOM_PADDING = moderateScale(9);
-const BOTTOM_PADDING_IPHONE_X = 30;
+const BOTTOM_PADDING = doesNotchExists() ? moderateScale(20) : moderateScale(9);
 
 const Wrapper = styled.View`
   position: relative;
   flex-direction: row;
   width: 100%;
   elevation: 2;
-  padding-bottom: ${isIphoneX() ? BOTTOM_PADDING_IPHONE_X : BOTTOM_PADDING};
+  padding-bottom: ${BOTTOM_PADDING};
   padding-top: ${(p) => p.topPadding};
   padding-horizontal: ${(p) => p.verticalPadding};
   background-color: ${(p) => p.tabBarBackground};
