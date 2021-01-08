@@ -19,3 +19,18 @@ export function isIPhoneXSize(dim) {
 export function isIPhoneXrSize(dim) {
   return dim.height == 896 || dim.width == 896;
 }
+
+export function doesNotchExists() {
+  const dimen = Dimensions.get("window");
+  return (
+    Platform.OS === "ios" &&
+    !Platform.isPad &&
+    !Platform.isTVOS &&
+    (dimen.height >= 812 ||
+      dimen.width === 812 ||
+      dimen.height === 896 ||
+      dimen.width === 896)
+    // ||
+    // (Platform.OS === "android" && StatusBar.currentHeight > 24)
+  );
+}
